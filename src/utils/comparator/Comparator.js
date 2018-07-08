@@ -2,45 +2,24 @@ export default class Comparator {
   /**
    * @param {function(a: *, b: *)} [compareFunction]
    */
-  constructor(compareFunction) {
-    this.compare = compareFunction || Comparator.defaultCompareFunction;
-  }
+  constructor(compareFunction) {}
 
   /**
    * @param {(string|number)} a
    * @param {(string|number)} b
    * @returns {number}
    */
-  static defaultCompareFunction(a, b) {
-    if (a === b) {
-      return 0;
-    }
+  static defaultCompareFunction(a, b) {}
 
-    return a < b ? -1 : 1;
-  }
+  equal(a, b) {}
 
-  equal(a, b) {
-    return this.compare(a, b) === 0;
-  }
+  lessThan(a, b) {}
 
-  lessThan(a, b) {
-    return this.compare(a, b) < 0;
-  }
+  greaterThan(a, b) {}
 
-  greaterThan(a, b) {
-    return this.compare(a, b) > 0;
-  }
+  lessThanOrEqual(a, b) {}
 
-  lessThanOrEqual(a, b) {
-    return this.lessThan(a, b) || this.equal(a, b);
-  }
+  greaterThanOrEqual(a, b) {}
 
-  greaterThanOrEqual(a, b) {
-    return this.greaterThan(a, b) || this.equal(a, b);
-  }
-
-  reverse() {
-    const compareOriginal = this.compare;
-    this.compare = (a, b) => compareOriginal(b, a);
-  }
+  reverse() {}
 }
