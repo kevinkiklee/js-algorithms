@@ -27,5 +27,7 @@ export default class BinarySearchTree {
   /**
    * @return {string}
    */
-  toString() {}
+  toString() {
+    return this.root.toString();
+  }
 }
