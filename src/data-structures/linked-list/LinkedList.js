@@ -121,6 +121,12 @@ export default class LinkedList {
    * @return {LinkedListNode}
    */
   deleteTail() {
+    if (!this.head) {
+      return {
+        value: null,
+      }
+    }
+
     if (!this.head.next) {
       const deletedValue = this.head.value
       this.head = null
