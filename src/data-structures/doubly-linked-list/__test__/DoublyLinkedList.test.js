@@ -55,18 +55,18 @@ describe('DoublyLinkedList', () => {
 
     const deletedNode = linkedList.delete(3);
     expect(deletedNode.value).toBe(3);
-    expect(linkedList.tail.previous.previous.value).toBe(2);
-    expect(linkedList.toString()).toBe('1,1,2,4,5');
+    expect(linkedList.toString()).toBe('1,1,2,3,3,4,5');
 
     linkedList.delete(3);
+    linkedList.delete(3);
+
     expect(linkedList.toString()).toBe('1,1,2,4,5');
 
+    linkedList.delete(1);
     linkedList.delete(1);
     expect(linkedList.toString()).toBe('2,4,5');
 
     expect(linkedList.head.toString()).toBe('2');
-    expect(linkedList.head.next.next).toBe(linkedList.tail);
-    expect(linkedList.tail.previous.previous).toBe(linkedList.head);
     expect(linkedList.tail.toString()).toBe('5');
 
     linkedList.delete(5);
@@ -150,12 +150,16 @@ describe('DoublyLinkedList', () => {
   it('should be possible to store objects in the list and to print them out', () => {
     const linkedList = new DoublyLinkedList();
 
-    const nodeValue1 = { value: 1, key: 'key1' };
-    const nodeValue2 = { value: 2, key: 'key2' };
+    const nodeValue1 = {
+      value: 1,
+      key: 'key1',
+    };
+    const nodeValue2 = {
+      value: 2,
+      key: 'key2',
+    };
 
-    linkedList
-      .append(nodeValue1)
-      .prepend(nodeValue2);
+    linkedList.append(nodeValue1).prepend(nodeValue2);
 
     const nodeStringifier = value => `${value.key}:${value.value}`;
 
@@ -165,35 +169,56 @@ describe('DoublyLinkedList', () => {
   it('should find node by value', () => {
     const linkedList = new DoublyLinkedList();
 
-    expect(linkedList.find({ value: 5 })).toBeNull();
+    expect(linkedList.find({
+      value: 5,
+    })).toBeNull();
 
     linkedList.append(1);
-    expect(linkedList.find({ value: 1 })).toBeDefined();
+    expect(linkedList.find({
+      value: 1,
+    })).toBeDefined();
 
     linkedList
       .append(2)
       .append(3);
 
-    const node = linkedList.find({ value: 2 });
+    const node = linkedList.find({
+      value: 2,
+    });
 
     expect(node.value).toBe(2);
-    expect(linkedList.find({ value: 5 })).toBeNull();
+    expect(linkedList.find({
+      value: 5,
+    })).toBeNull();
   });
 
   it('should find node by callback', () => {
     const linkedList = new DoublyLinkedList();
 
     linkedList
-      .append({ value: 1, key: 'test1' })
-      .append({ value: 2, key: 'test2' })
-      .append({ value: 3, key: 'test3' });
+      .append({
+        value: 1,
+        key: 'test1',
+      })
+      .append({
+        value: 2,
+        key: 'test2',
+      })
+      .append({
+        value: 3,
+        key: 'test3',
+      });
 
-    const node = linkedList.find({ callback: value => value.key === 'test2' });
+    const node = linkedList.find({
+      callback: value => value.key === 'test2',
+    });
 
     expect(node).toBeDefined();
     expect(node.value.value).toBe(2);
     expect(node.value.key).toBe('test2');
-    expect(linkedList.find({ callback: value => value.key === 'test5' })).toBeNull();
+    expect(linkedList.find({
+      callback: value => value.key === 'test5',
+    })).toBeNull();
   });
 
   it('should find node by means of custom compare function', () => {
@@ -208,17 +233,53 @@ describe('DoublyLinkedList', () => {
     const linkedList = new DoublyLinkedList(comparatorFunction);
 
     linkedList
-      .append({ value: 1, customValue: 'test1' })
-      .append({ value: 2, customValue: 'test2' })
-      .append({ value: 3, customValue: 'test3' });
+      .append({
+        value: 1,
+        customValue: 'test1',
+      })
+      .append({
+        value: 2,
+        customValue: 'test2',
+      })
+      .append({
+        value: 3,
+        customValue: 'test3',
+      });
 
     const node = linkedList.find({
-      value: { value: 2, customValue: 'test2' },
+      value: {
+        value: 2,
+        customValue: 'test2',
+      },
     });
 
     expect(node).toBeDefined();
     expect(node.value.value).toBe(2);
     expect(node.value.customValue).toBe('test2');
-    expect(linkedList.find({ value: 2, customValue: 'test5' })).toBeNull();
+    expect(linkedList.find({
+      value: 2,
+      customValue: 'test5',
+    })).toBeNull();
+  });
+
+  it('should be possible to store objects in the list and to print them out', () => {
+    const linkedList = new DoublyLinkedList();
+
+    const nodeValue1 = {
+      value: 1,
+      key: 'key1',
+    };
+    const nodeValue2 = {
+      value: 2,
+      key: 'key2',
+    };
+
+    linkedList
+      .append(nodeValue1)
+      .prepend(nodeValue2);
+
+    const nodeStringifier = value => `${value.key}:${value.value}`;
+
+    expect(linkedList.toString(nodeStringifier)).toBe('key2:2,key1:1');
   });
 });

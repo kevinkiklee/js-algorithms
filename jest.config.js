@@ -4,7 +4,7 @@ module.exports = {
   bail: false,
 
   // Indicates whether each individual test should be reported during the run.
-  verbose: false,
+  verbose: true,
 
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: false,
