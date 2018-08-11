@@ -5,75 +5,184 @@ export default class BinaryTreeNode {
   /**
    * @param {*} [value] - node value.
    */
-  constructor(value = null) {}
+  constructor(value = null) {
+    this.value = value
+    this.left = null
+    this.right = null
+    this.parent = null
+    this.meta = new HashTable()
+    this.nodeComparator = new Comparator()
+  }
 
   /**
    * @return {number}
    */
-  get leftHeight() {}
+  get leftHeight() {
+    let depth = 1
+
+    if (this.left) {
+      depth += this.left.leftHeight
+    }
+
+    return depth
+  }
 
   /**
    * @return {number}
    */
-  get rightHeight() {}
+  get rightHeight() {
+    let depth = 1
+
+    if (this.right) {
+      depth += this.right.rightHeight
+    }
+
+    return depth
+  }
 
   /**
    * @return {number}
    */
-  get height() {}
+  get height() {
+    return Math.max(this.leftHeight, this.rightHeight) - 1
+  }
 
   /**
    * @return {number}
    */
-  get balanceFactor() {}
+  get balanceFactor() {
+    return this.leftHeight - this.rightHeight
+  }
 
   /**
    * Get parent's sibling if it exists.
    * @return {BinaryTreeNode}
    */
-  get uncle() {}
+  get uncle() {
+    if (!this.parent || !this.parent.parent) {
+      return undefined
+    }
+
+    const grandParent = this.parent.parent
+
+    if (grandParent.left && this.nodeComparator.equal(grandParent.right, this.parent)) {
+      return grandParent.left
+    }
+
+    if (grandParent.right && this.nodeComparator.equal(grandParent.left, this.parent)) {
+      return grandParent.right
+    }
+
+    return undefined
+  }
 
   /**
    * @param {*} value
    * @return {BinaryTreeNode}
    */
-  setValue(value) {}
+  setValue(value) {
+    this.value = value
+    return this
+  }
 
   /**
    * @param {BinaryTreeNode} node
    * @return {BinaryTreeNode}
    */
-  setLeft(node) {}
+  setLeft(node) {
+    if (node) {
+      node.parent = this
+    }
+
+    this.left = node
+    return this
+  }
 
   /**
    * @param {BinaryTreeNode} node
    * @return {BinaryTreeNode}
    */
-  setRight(node) {}
+  setRight(node) {
+    if (node) {
+      node.parent = this
+    }
+
+    this.right = node
+    return this
+  }
 
   /**
    * @param {BinaryTreeNode} nodeToRemove
    * @return {boolean}
    */
-  removeChild(nodeToRemove) {}
+  removeChild(nodeToRemove) {
+    if (this.left && this.nodeComparator.equal(this.left, nodeToRemove)) {
+      this.left = null
+      return true
+    }
+
+    if (this.right && this.nodeComparator.equal(this.right, nodeToRemove)) {
+      this.right = null
+      return true
+    }
+
+    return false
+  }
 
   /**
    * @param {BinaryTreeNode} nodeToReplace
    * @param {BinaryTreeNode} replacementNode
    * @return {boolean}
    */
-  replaceChild(nodeToReplace, replacementNode) {}
+  replaceChild(nodeToReplace, replacementNode) {
+    if (!replacementNode) {
+      return false
+    }
+
+    if (this.left && this.nodeComparator.equal(this.left, nodeToReplace)) {
+      this.left = replacementNode
+      replacementNode.parent = this
+      return true
+    }
+
+    if (this.right && this.nodeComparator.equal(this.right, nodeToReplace)) {
+      this.right = replacementNode
+      replacementNode.parent = this
+      return true
+    }
+
+    return false
+  }
 
   /**
    * @param {BinaryTreeNode} sourceNode
    * @param {BinaryTreeNode} targetNode
    */
-  static copyNode(sourceNode, targetNode) {}
+  static copyNode(sourceNode, targetNode) {
+    targetNode.value = sourceNode.value
+    targetNode.left = sourceNode.left
+    targetNode.right = sourceNode.right
+    targetNode.parent = sourceNode.parent
+  }
 
   /**
    * @return {*[]}
    */
-  traverseInOrder() {}
+  traverseInOrder() {
+    let nodes = []
+
+    if (this.left) {
+      nodes = [...nodes, ...this.left.traverseInOrder()]
+    }
+
+    nodes.push(this.value)
+
+    if (this.right) {
+      nodes = [...nodes, ...this.right.traverseInOrder()]
+    }
+
+    return nodes
+  }
 
   /**
    * @return {string}

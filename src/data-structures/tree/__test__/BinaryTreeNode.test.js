@@ -175,8 +175,13 @@ describe('BinaryTreeNode', () => {
   });
 
   it('should be possible to create node with object as a value', () => {
-    const obj1 = { key: 'object_1', toString: () => 'object_1' };
-    const obj2 = { key: 'object_2' };
+    const obj1 = {
+      key: 'object_1',
+      toString: () => 'object_1',
+    };
+    const obj2 = {
+      key: 'object_2',
+    };
 
     const node1 = new BinaryTreeNode(obj1);
     const node2 = new BinaryTreeNode(obj2);
