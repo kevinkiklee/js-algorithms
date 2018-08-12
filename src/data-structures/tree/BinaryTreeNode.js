@@ -162,7 +162,6 @@ export default class BinaryTreeNode {
     targetNode.value = sourceNode.value
     targetNode.left = sourceNode.left
     targetNode.right = sourceNode.right
-    targetNode.parent = sourceNode.parent
   }
 
   /**
