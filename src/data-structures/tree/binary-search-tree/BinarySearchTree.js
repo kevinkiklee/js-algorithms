@@ -2,10 +2,12 @@ import BinarySearchTreeNode from './BinarySearchTreeNode';
 
 export default class BinarySearchTree {
   /**
-   * @param {function} [nodeValueCompareFunction]
+   * @param {function} [compareFn]
    */
-  constructor(nodeValueCompareFunction) {
-    this.root = new BinarySearchTreeNode()
+  constructor(compareFn) {
+    this.root = new BinarySearchTreeNode(null, compareFn);
+
+    this.compare = this.root.compare;
   }
 
   /**
